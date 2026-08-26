@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package users.v1;
+
+option go_package = "github.com/darkin-kat/store-api/gen/users/v1;usrv1";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+
+service UserService {
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+        option (google.api.http) = {
+          post: "/v1/users"
+          body: "*"
+        };
+    }
+    rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+        option (google.api.http) = {
+          get: "/v1/users/{id}"
+          additional_bindings {
+            get: "/1/users:lookup"
+          }
+        };
+    }
+
+    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
+        option (google.api.http) = {
+          patch: "/v1/users/{id}"
+          body: "*"
+        };
+    }
+
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {
+        option (google.api.http) = {
+          delete: "/v1/users/{id}"
+        };
+    }
+
+    rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {
+        option (google.api.http) = {
+          get: "/v1/users"
+        };
+    }
+}
+
+enum Role {
+    ROLE_UNSPECIFIED = 0;
+    ROLE_USER = 1;
+    ROLE_ADMIN = 2;
+    ROLE_WAREHOUSE = 3;
+}
+
+message User {
+    string id = 1;
+    string email = 2;
+    string first_name = 3;
+    string last_name = 4;
+    Role role = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp updated_at = 7;
+}
+
+message GetUserRequest {
+    oneof identifier {
+        string id = 1;
+        string email = 2;
+    }
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
+message CreateUserRequest {
+  string email = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string password = 4;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}
+
+message DeleteUserRequest {
+    string id = 1;
+}
+
+message DeleteUserResponse {}
+
+message UpdateUserRequest {
+    string id = 1;
+    optional string email = 2;
+    optional string first_name = 3;
+    optional string last_name = 4;
+    optional string password = 5;
+}
+
+message UpdateUserResponse {
+    User user = 1;
+}
+
+message ListUsersRequest {
+    int32 limit = 1;
+    int32 offset = 2;
+}
+
+message ListUsersResponse {
+    repeated User users = 1;
+    int32 total = 2;
+}
