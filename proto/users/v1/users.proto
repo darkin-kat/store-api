@@ -56,9 +56,10 @@ message User {
     string email = 2;
     string first_name = 3;
     string last_name = 4;
-    Role role = 5;
-    google.protobuf.Timestamp created_at = 6;
-    google.protobuf.Timestamp updated_at = 7;
+    string password = 5;
+    Role role = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
 }
 
 message GetUserRequest {
