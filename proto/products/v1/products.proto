@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+package products.v1;
+
+option go_package = "github.com/darkin-kat/store-api/gen/products/v1;productsv1";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+service ProductsService {
+    rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {
+        option (google.api.http) = {
+            post: "/v1/products"
+            body: "*"
+        };
+    }
+
+    rpc GetProduct(GetProductRequest) returns (GetProductResponse) {
+        option (google.api.http) = {
+            get: "/v1/products/{id}"
+        };
+    }
+
+    rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse) {
+        option (google.api.http) = {
+            patch: "/v1/products/{id}"
+            body: "*"
+        };
+    }
+
+    rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse) {
+        option (google.api.http) = {
+            delete: "/v1/products/{id}"
+        };
+    }
+
+    rpc ListProducts(ListProductsRequest) returns (ListProductsResponse) {
+        option (google.api.http) = {
+            get: "/v1/products"
+        };
+    }
+}
+
+enum ProductType {
+    PRODUCT_TYPE_UNSPECIFIED = 0;
+    PRODUCT_TYPE_FRAGRANCE = 1;
+    PRODUCT_TYPE_MAKEUP = 2;
+    PRODUCT_TYPE_SKINCARE = 3;
+}
+
+enum Sex {
+    SEX_UNSPECIFIED = 0;
+    SEX_MALE = 1;
+    SEX_FEMALE = 2;
+    SEX_UNISEX = 3;
+}
+
+enum MakeupType {
+    MAKEUP_TYPE_UNSPECIFIED = 0;
+    MAKEUP_TYPE_MASCARA = 1;
+    MAKEUP_TYPE_EYELINER = 2;
+    MAKEUP_TYPE_LIP_GLOSS = 3;
+    MAKEUP_TYPE_LIPSTICK = 4;
+    MAKEUP_TYPE_FACE_POWDER = 5;
+    MAKEUP_TYPE_CONCEALER = 6;
+    MAKEUP_TYPE_HIGHLIGHTER = 7;
+}
+
+enum PartOfFace {
+    PART_OF_FACE_UNSPECIFIED = 0;
+    PART_OF_FACE_FACE = 1;
+    PART_OF_FACE_LIPS = 2;
+    PART_OF_FACE_EYES = 3;
+}
+
+enum SkinCarePlace {
+    SKIN_CARE_PLACE_UNSPECIFIED = 0;
+    SKIN_CARE_PLACE_FACE = 1;
+    SKIN_CARE_PLACE_BODY = 2;
+}
+
+enum SkinCareSubType {
+    SKIN_CARE_SUB_TYPE_UNSPECIFIED = 0;
+    SKIN_CARE_SUB_TYPE_CARE = 1;
+    SKIN_CARE_SUB_TYPE_NEED = 2;
+}
+
+message FragranceFields {
+    string collection_name = 1;
+    Sex sex = 2;
+    repeated string fragrance_type = 3;
+    string fragrance_number = 4;
+    string volume = 5;
+}
+
+message MakeupFields {
+    MakeupType makeup_type = 1;
+    PartOfFace part_of_face = 2;
+    string color_name = 3;
+    string color_hex = 4;
+}
+
+message SkinCareFields {
+    SkinCarePlace skin_care_place = 1;
+    SkinCareSubType skin_care_sub_type = 2;
+    repeated string skin_care_type = 3;
+    string skin_type = 4;
+    repeated string active_components = 5;
+}
+
+message Product {
+    string id = 1;
+    ProductType product_type = 2;
+    string name = 3;
+    string brand_name = 4;
+    google.protobuf.Timestamp updated_at = 5;
+    
+    oneof details {
+        FragranceFields fragrance = 6;
+        MakeupFields makeup = 7;
+        SkinCareFields skincare = 8;
+    }
+}
+
+message UpdateProductRequest {
+    string id = 1;
+    optional string name = 2;
+    optional string brand_name = 3;
+
+    oneof details {
+        FragranceFields fragrance = 4;
+        MakeupFields makeup = 5;
+        SkinCareFields skincare = 6;
+    }
+}
+
+message UpdateProductResponse {
+    Product product = 1;
+}
+
+message GetProductRequest {
+    string id = 1;
+}
+
+message GetProductResponse {
+    Product product = 1;
+}
+
+message ListProductsRequest {
+    int32 limit = 1;
+    int32 offset = 2;
+}
+
+message ListProductsResponse {
+    repeated Product products = 1;
+    int32 total = 2;
+}
+
+message CreateProductRequest {
+    string name = 2;
+    string brand_name = 3;
+
+    oneof details {
+        FragranceFields fragrance = 4;
+        MakeupFields makeup = 5;
+        SkinCareFields skincare = 6;
+    }
+}
+
+message CreateProductResponse {
+    Product product = 1;
+}
+
+message DeleteProductRequest {
+  string id = 1;
+}
+
+message DeleteProductResponse {}
