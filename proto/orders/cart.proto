@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package orders.v1;
+
+option go_package = "github.com/darkin-kat/store-api/gen/orders/v1;ordersv1";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+message CartItem {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+message Cart {
+  string id = 1;
+  string user_id = 2;
+  map<string, CartItem> items = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+service CartService {
+  rpc GetCart(GetCartRequest) returns (GetCartResponse) {
+    option (google.api.http) = {
+      get: "/v1/carts/{user_id}"
+    };
+  }
+
+  rpc AddItemsToCart(AddItemsToCartRequest) returns (AddItemsToCartResponse) {
+    option (google.api.http) = {
+      post: "/v1/carts/{user_id}/items"
+      body: "*"
+    };
+  }
+
+  rpc RemoveFromCart(RemoveFromCartRequest) returns (RemoveFromCartResponse) {
+    option (google.api.http) = {
+      delete: "/v1/carts/{user_id}/items/{product_id}"
+    };
+  }
+}
+
+message GetCartRequest {
+  string user_id = 1;
+}
+
+message GetCartResponse {
+  Cart cart = 1;
+}
+
+message AddItemsToCartRequest {
+  string user_id = 1;
+  repeated CartItem items = 2;
+}
+
+message AddItemsToCartResponse {
+  Cart cart = 1;
+}
+
+message RemoveFromCartRequest {
+  string user_id = 1;
+  string product_id = 2;
+}
+
+message RemoveFromCartResponse {
+  Cart cart = 1;
+}
