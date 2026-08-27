@@ -15,8 +15,17 @@ message CartItem {
 message Cart {
   string id = 1;
   string user_id = 2;
-  map<string, CartItem> items = 3;
-  google.protobuf.Timestamp updated_at = 4;
+  map<string, CartItemView> items = 3;
+  double total_amount = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message CartItemView {
+    string product_id = 1;
+    string product_name = 2;
+    double price = 3;
+    int32 quantity = 4;
+    double line_total = 5;
 }
 
 service CartService {
