@@ -712,6 +712,7 @@ type UpdateProductRequest struct {
 	Id        string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name      *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	BrandName *string                `protobuf:"bytes,3,opt,name=brand_name,json=brandName,proto3,oneof" json:"brand_name,omitempty"`
+	Price     *float64               `protobuf:"fixed64,7,opt,name=price,proto3,oneof" json:"price,omitempty"`
 	// Types that are valid to be assigned to Details:
 	//
 	//	*UpdateProductRequest_Fragrance
@@ -771,6 +772,13 @@ func (x *UpdateProductRequest) GetBrandName() string {
 		return *x.BrandName
 	}
 	return ""
+}
+
+func (x *UpdateProductRequest) GetPrice() float64 {
+	if x != nil && x.Price != nil {
+		return *x.Price
+	}
+	return 0
 }
 
 func (x *UpdateProductRequest) GetDetails() isUpdateProductRequest_Details {
@@ -1067,8 +1075,9 @@ func (x *ListProductsResponse) GetTotal() int32 {
 
 type CreateProductRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
-	Name      string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	BrandName string                 `protobuf:"bytes,3,opt,name=brand_name,json=brandName,proto3" json:"brand_name,omitempty"`
+	Name      string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	BrandName string                 `protobuf:"bytes,2,opt,name=brand_name,json=brandName,proto3" json:"brand_name,omitempty"`
+	Price     float64                `protobuf:"fixed64,3,opt,name=price,proto3" json:"price,omitempty"`
 	// Types that are valid to be assigned to Details:
 	//
 	//	*CreateProductRequest_Fragrance
@@ -1121,6 +1130,13 @@ func (x *CreateProductRequest) GetBrandName() string {
 		return x.BrandName
 	}
 	return ""
+}
+
+func (x *CreateProductRequest) GetPrice() float64 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
 }
 
 func (x *CreateProductRequest) GetDetails() isCreateProductRequest_Details {
@@ -1340,18 +1356,20 @@ const file_products_v1_products_proto_rawDesc = "" +
 	"\tfragrance\x18\a \x01(\v2\x1c.products.v1.FragranceFieldsH\x00R\tfragrance\x123\n" +
 	"\x06makeup\x18\b \x01(\v2\x19.products.v1.MakeupFieldsH\x00R\x06makeup\x129\n" +
 	"\bskincare\x18\t \x01(\v2\x1b.products.v1.SkinCareFieldsH\x00R\bskincareB\t\n" +
-	"\adetails\"\xb4\x02\n" +
+	"\adetails\"\xd9\x02\n" +
 	"\x14UpdateProductRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x01R\x04name\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"brand_name\x18\x03 \x01(\tH\x02R\tbrandName\x88\x01\x01\x12<\n" +
+	"brand_name\x18\x03 \x01(\tH\x02R\tbrandName\x88\x01\x01\x12\x19\n" +
+	"\x05price\x18\a \x01(\x01H\x03R\x05price\x88\x01\x01\x12<\n" +
 	"\tfragrance\x18\x04 \x01(\v2\x1c.products.v1.FragranceFieldsH\x00R\tfragrance\x123\n" +
 	"\x06makeup\x18\x05 \x01(\v2\x19.products.v1.MakeupFieldsH\x00R\x06makeup\x129\n" +
 	"\bskincare\x18\x06 \x01(\v2\x1b.products.v1.SkinCareFieldsH\x00R\bskincareB\t\n" +
 	"\adetailsB\a\n" +
 	"\x05_nameB\r\n" +
-	"\v_brand_name\"G\n" +
+	"\v_brand_nameB\b\n" +
+	"\x06_price\"G\n" +
 	"\x15UpdateProductResponse\x12.\n" +
 	"\aproduct\x18\x01 \x01(\v2\x14.products.v1.ProductR\aproduct\"#\n" +
 	"\x11GetProductRequest\x12\x0e\n" +
@@ -1363,11 +1381,12 @@ const file_products_v1_products_proto_rawDesc = "" +
 	"\x06offset\x18\x02 \x01(\x05R\x06offset\"^\n" +
 	"\x14ListProductsResponse\x120\n" +
 	"\bproducts\x18\x01 \x03(\v2\x14.products.v1.ProductR\bproducts\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x05R\x05total\"\x82\x02\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total\"\x98\x02\n" +
 	"\x14CreateProductRequest\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1d\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
 	"\n" +
-	"brand_name\x18\x03 \x01(\tR\tbrandName\x12<\n" +
+	"brand_name\x18\x02 \x01(\tR\tbrandName\x12\x14\n" +
+	"\x05price\x18\x03 \x01(\x01R\x05price\x12<\n" +
 	"\tfragrance\x18\x04 \x01(\v2\x1c.products.v1.FragranceFieldsH\x00R\tfragrance\x123\n" +
 	"\x06makeup\x18\x05 \x01(\v2\x19.products.v1.MakeupFieldsH\x00R\x06makeup\x129\n" +
 	"\bskincare\x18\x06 \x01(\v2\x1b.products.v1.SkinCareFieldsH\x00R\bskincareB\t\n" +
