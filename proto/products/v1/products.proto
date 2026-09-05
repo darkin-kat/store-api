@@ -113,12 +113,13 @@ message Product {
     ProductType product_type = 2;
     string name = 3;
     string brand_name = 4;
-    google.protobuf.Timestamp updated_at = 5;
+    double price = 5;
+    google.protobuf.Timestamp updated_at = 6;
     
     oneof details {
-        FragranceFields fragrance = 6;
-        MakeupFields makeup = 7;
-        SkinCareFields skincare = 8;
+        FragranceFields fragrance = 7;
+        MakeupFields makeup = 8;
+        SkinCareFields skincare = 9;
     }
 }
 

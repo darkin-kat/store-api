@@ -567,7 +567,8 @@ type Product struct {
 	ProductType ProductType            `protobuf:"varint,2,opt,name=product_type,json=productType,proto3,enum=products.v1.ProductType" json:"product_type,omitempty"`
 	Name        string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	BrandName   string                 `protobuf:"bytes,4,opt,name=brand_name,json=brandName,proto3" json:"brand_name,omitempty"`
-	UpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Price       float64                `protobuf:"fixed64,5,opt,name=price,proto3" json:"price,omitempty"`
+	UpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	// Types that are valid to be assigned to Details:
 	//
 	//	*Product_Fragrance
@@ -636,6 +637,13 @@ func (x *Product) GetBrandName() string {
 	return ""
 }
 
+func (x *Product) GetPrice() float64 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
 func (x *Product) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
@@ -682,15 +690,15 @@ type isProduct_Details interface {
 }
 
 type Product_Fragrance struct {
-	Fragrance *FragranceFields `protobuf:"bytes,6,opt,name=fragrance,proto3,oneof"`
+	Fragrance *FragranceFields `protobuf:"bytes,7,opt,name=fragrance,proto3,oneof"`
 }
 
 type Product_Makeup struct {
-	Makeup *MakeupFields `protobuf:"bytes,7,opt,name=makeup,proto3,oneof"`
+	Makeup *MakeupFields `protobuf:"bytes,8,opt,name=makeup,proto3,oneof"`
 }
 
 type Product_Skincare struct {
-	Skincare *SkinCareFields `protobuf:"bytes,8,opt,name=skincare,proto3,oneof"`
+	Skincare *SkinCareFields `protobuf:"bytes,9,opt,name=skincare,proto3,oneof"`
 }
 
 func (*Product_Fragrance) isProduct_Details() {}
@@ -1319,18 +1327,19 @@ const file_products_v1_products_proto_rawDesc = "" +
 	"\x12skin_care_sub_type\x18\x02 \x01(\x0e2\x1c.products.v1.SkinCareSubTypeR\x0fskinCareSubType\x12$\n" +
 	"\x0eskin_care_type\x18\x03 \x03(\tR\fskinCareType\x12\x1b\n" +
 	"\tskin_type\x18\x04 \x01(\tR\bskinType\x12+\n" +
-	"\x11active_components\x18\x05 \x03(\tR\x10activeComponents\"\xfd\x02\n" +
+	"\x11active_components\x18\x05 \x03(\tR\x10activeComponents\"\x93\x03\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12;\n" +
 	"\fproduct_type\x18\x02 \x01(\x0e2\x18.products.v1.ProductTypeR\vproductType\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1d\n" +
 	"\n" +
-	"brand_name\x18\x04 \x01(\tR\tbrandName\x129\n" +
+	"brand_name\x18\x04 \x01(\tR\tbrandName\x12\x14\n" +
+	"\x05price\x18\x05 \x01(\x01R\x05price\x129\n" +
 	"\n" +
-	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12<\n" +
-	"\tfragrance\x18\x06 \x01(\v2\x1c.products.v1.FragranceFieldsH\x00R\tfragrance\x123\n" +
-	"\x06makeup\x18\a \x01(\v2\x19.products.v1.MakeupFieldsH\x00R\x06makeup\x129\n" +
-	"\bskincare\x18\b \x01(\v2\x1b.products.v1.SkinCareFieldsH\x00R\bskincareB\t\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12<\n" +
+	"\tfragrance\x18\a \x01(\v2\x1c.products.v1.FragranceFieldsH\x00R\tfragrance\x123\n" +
+	"\x06makeup\x18\b \x01(\v2\x19.products.v1.MakeupFieldsH\x00R\x06makeup\x129\n" +
+	"\bskincare\x18\t \x01(\v2\x1b.products.v1.SkinCareFieldsH\x00R\bskincareB\t\n" +
 	"\adetails\"\xb4\x02\n" +
 	"\x14UpdateProductRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
